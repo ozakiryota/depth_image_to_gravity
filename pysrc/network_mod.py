@@ -31,6 +31,15 @@ class Network(nn.Module):
             nn.Dropout(p=0.1),
             nn.Linear(18, 3)
         )
+        self.initializeWeights()
+
+    def initializeWeights(self):
+        for m in self.cnn.children():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight)
+        for m in self.fc.children():
+            if isinstance(m, nn.Linear):
+                nn.init.kaiming_normal_(m.weight)
 
     def getParamValueList(self):
         list_cnn_param_value = []
