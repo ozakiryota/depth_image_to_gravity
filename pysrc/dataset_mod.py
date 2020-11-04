@@ -26,23 +26,23 @@ class OriginalDataset(data.Dataset):
         return depth_img_trans, acc_trans
 
 ##### test #####
-# import make_datapath_list
-# import data_transform_model
+# import make_datalist_mod
+# import data_transform_mod
 # ## list
 # train_rootpath = "../../dataset_image_to_gravity/AirSim/lidar/train"
 # val_rootpath = "../../dataset_image_to_gravity/AirSim/lidar/val"
 # csv_name = "imu_lidar.csv"
-# train_list = make_datapath_list.makeDatapathList(train_rootpath, csv_name)
-# val_list = make_datapath_list.makeDatapathList(val_rootpath, csv_name)
+# train_list = make_datalist_mod.makeDataList(train_rootpath, csv_name)
+# val_list = make_datalist_mod.makeDataList(val_rootpath, csv_name)
 # ## dataset
 # train_dataset = OriginalDataset(
 #     data_list=train_list,
-#     transform=data_transform_model.DataTransform(),
+#     transform=data_transform_mod.DataTransform(),
 #     phase="train"
 # )
 # val_dataset = OriginalDataset(
 #     data_list=val_list,
-#     transform=data_transform_model.DataTransform(),
+#     transform=data_transform_mod.DataTransform(),
 #     phase="val"
 # )
 # ## print

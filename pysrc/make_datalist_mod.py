@@ -1,7 +1,7 @@
 import csv
 import os
 
-def makeDatapathList(rootpath, csv_name):
+def makeDataList(rootpath, csv_name):
     csv_path = os.path.join(rootpath, csv_name)
     with open(csv_path) as csvfile:
         reader = csv.reader(csvfile)
@@ -14,7 +14,7 @@ def makeDatapathList(rootpath, csv_name):
 ##### test #####
 # rootpath = "../../dataset_image_to_gravity/AirSim/lidar/train"
 # csv_name = "imu_lidar.csv"
-# train_list = makeDatapathList(rootpath, csv_name)
+# train_list = makeDataList(rootpath, csv_name)
 # # print(train_list)
 # print("example0: ", train_list[0][:3], train_list[0][3:])
 # print("example1: ", train_list[1][:3], train_list[1][3:])

@@ -5,9 +5,9 @@ import torch
 from torchvision import models
 import torch.nn as nn
 
-class OriginalNet(nn.Module):
+class Network(nn.Module):
     def __init__(self):
-        super(OriginalNet, self).__init__()
+        super(Network, self).__init__()
 
         self.cnn = nn.Sequential(
             nn.Conv2d(1, 64, kernel_size=3, stride=1, padding=1),
@@ -60,7 +60,7 @@ class OriginalNet(nn.Module):
         return x
 
 ##### test #####
-# import data_transform_model
+# import data_transform_mod
 # ## ref
 # # vgg = models.vgg16(pretrained=False)
 # # print(vgg)
@@ -71,10 +71,10 @@ class OriginalNet(nn.Module):
 # acc_list = [0, 0, 1]
 # acc_numpy = np.array(acc_list)
 # ## transform
-# transform = data_transform_model.DataTransform()
+# transform = data_transform_mod.DataTransform()
 # depth_img_trans, _ = transform(depth_img_numpy, acc_numpy)
 # ## network
-# net = OriginalNet()
+# net = Network()
 # print(net)
 # list_cnn_param_value, list_fc_param_value = net.getParamValueList()
 # ## prediction
