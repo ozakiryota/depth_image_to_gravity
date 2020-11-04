@@ -14,6 +14,8 @@ class DataTransform():
     def __call__(self, depth_img_numpy, acc_numpy, phase="train"):
         ## img
         depth_img_numpy = depth_img_numpy.astype(np.float32)
+        if np.max(depth_img_numpy) > 0:
+            depth_img_numpy = depth_img_numpy/np.max(depth_img_numpy)
         depth_img_tensor = torch.from_numpy(depth_img_numpy)
         depth_img_tensor = depth_img_tensor.unsqueeze_(0)
         ## acc
@@ -49,7 +51,7 @@ class DataTransform():
 # print("depth_img_trans_numpy.shape = ", depth_img_trans_numpy.shape)
 # ## save
 # depth_img_trans_numpy = depth_img_trans_numpy.squeeze(2)
-# img_pil = Image.fromarray(np.uint8(255*depth_img_trans_numpy/np.linalg.norm(depth_img_trans_numpy)))
+# img_pil = Image.fromarray(np.uint8(255*depth_img_trans_numpy/np.max(depth_img_trans_numpy)))
 # save_path = "../save/transform.jpg"
 # img_pil.save(save_path)
 # print("saved: ", save_path)
