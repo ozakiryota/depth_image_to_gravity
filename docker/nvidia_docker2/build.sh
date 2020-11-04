@@ -1,0 +1,7 @@
+#!/bin/bash
+
+image_name="depth_image_to_gravity"
+tag_name="nvidia_docker2"
+docker build . \
+	-t $image_name:$tag_name \
+	--build-arg CACHEBUST=$(date +%s)
