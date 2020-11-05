@@ -8,17 +8,15 @@ import data_transform_mod
 import dataset_mod
 
 def show_inputs(inputs):
-    h = 5
-    w = 2
-    i = 0
+    h = 10
+    w = 1
     plt.figure()
-    for tensor in inputs:
-        # print(tensor.size())
-        img = tensor.numpy().transpose((1, 2, 0))
-        img = img.squeeze(2)
-        plt.subplot(h, w, i+1)
-        plt.imshow(img)
-        i += 1
+    for i, tensor in enumerate(inputs):
+        if i < h*w:
+            img = tensor.numpy().transpose((1, 2, 0))
+            img = img.squeeze(2)
+            plt.subplot(h, w, i+1)
+            plt.imshow(img)
     plt.show()
 
 ## list

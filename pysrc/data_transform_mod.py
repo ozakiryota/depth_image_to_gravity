@@ -14,8 +14,7 @@ class DataTransform():
     def __call__(self, depth_img_numpy, acc_numpy, phase="train"):
         ## img
         depth_img_numpy = depth_img_numpy.astype(np.float32)
-        if np.max(depth_img_numpy) > 0:
-            depth_img_numpy = depth_img_numpy/np.max(depth_img_numpy)
+        depth_img_numpy = depth_img_numpy/np.max(depth_img_numpy)
         depth_img_tensor = torch.from_numpy(depth_img_numpy)
         depth_img_tensor = depth_img_tensor.unsqueeze_(0)
         ## acc
