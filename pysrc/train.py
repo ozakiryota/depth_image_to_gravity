@@ -1,6 +1,7 @@
 from tqdm import tqdm
 import matplotlib.pyplot as plt
 import time
+import datetime
 
 import torch
 from torchvision import models
@@ -109,7 +110,7 @@ class TrainModel:
         ## time
         start_clock = time.time()
         ## loss record
-        # writer = SummaryWriter(logdir="../../runs")
+        writer = SummaryWriter(logdir = "../logs/" + self.str_hyperparameter + datetime.datetime.now().strftime("-%Y%m%d-%H%M%S"))
         record_loss_train = []
         record_loss_val = []
         ## loop
@@ -149,11 +150,13 @@ class TrainModel:
                 ## record
                 if phase == "train":
                     record_loss_train.append(epoch_loss)
-                    # writer.add_scalar("Loss/train", epoch_loss, epoch)
+                    writer.add_scalar("Loss/train", epoch_loss, epoch)
                 else:
                     record_loss_val.append(epoch_loss)
-                    # writer.add_scalar("Loss/val", epoch_loss, epoch)
-                # writer.close()
+                    writer.add_scalar("Loss/val", epoch_loss, epoch)
+            if record_loss_train and record_loss_val:
+                writer.add_scalars("Loss/train_and_val", {"train": record_loss_train[-1], "val": record_loss_val[-1]}, epoch)
+        writer.close()
         ## save
         self.saveParam()
         self.saveGraph(record_loss_train, record_loss_val)
