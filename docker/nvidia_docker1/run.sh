@@ -12,4 +12,5 @@ nvidia-docker run -it --rm \
 	-v $root_path/../../../dataset_image_to_gravity:/home/$image_name/../dataset_image_to_gravity \
 	-v $root_path/../../weights:/home/$image_name/weights \
 	-v $root_path/../../graph:/home/$image_name/graph \
+	-v $root_path/../../logs:/home/$image_name/logs \
 	$image_name:$tag_name
