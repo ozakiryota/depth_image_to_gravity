@@ -12,24 +12,40 @@ class DataTransform():
         print("DataTransform.__init__")
 
     def __call__(self, depth_img_numpy, acc_numpy, phase="train"):
-        ## img
+        ## augemntation
+        if phase == "train":
+            depth_img_numpy, angle = self.randomlySlidePixels(depth_img_numpy)
+            acc_numpy = self.rotateVector(acc_numpy, angle)
+        ## img: numpy -> tensor
         depth_img_numpy = depth_img_numpy.astype(np.float32)
         depth_img_tensor = torch.from_numpy(depth_img_numpy)
         depth_img_tensor = depth_img_tensor.unsqueeze_(0)
-        ## acc
+        ## acc: numpy -> tensor
         acc_numpy = acc_numpy.astype(np.float32)
         acc_numpy = acc_numpy / np.linalg.norm(acc_numpy)
         acc_tensor = torch.from_numpy(acc_numpy)
         return depth_img_tensor, acc_tensor
 
+    def randomlySlidePixels(self, depth_img_numpy):
+        ## slide: right -> left (rotate: CCW along Z-axis)
+        slide_pixel = random.randint(0, depth_img_numpy.shape[1] - 1)
+        slide_rad = self.anglePiToPi(2 * math.pi / depth_img_numpy.shape[1] * slide_pixel)
+        slid_depth_img_numpy = np.roll(depth_img_numpy, -slide_pixel, axis=1)
+        # print("slide_pixel = ", slide_pixel)
+        # print("slide_rad/math.pi*180.0 = ", slide_rad/math.pi*180.0)
+        return slid_depth_img_numpy, slide_rad
+
     def rotateVector(self, acc_numpy, angle):
         rot = np.array([
-            [1, 0, 0],
-            [0, math.cos(-angle), -math.sin(-angle)],
-            [0, math.sin(-angle), math.cos(-angle)]
+    	    [math.cos(-angle), -math.sin(-angle), 0.0],
+    	    [math.sin(-angle), math.cos(-angle), 0.0],
+    	    [0.0, 0.0, 1.0]
     	])
         rot_acc_numpy = np.dot(rot, acc_numpy)
         return rot_acc_numpy
+
+    def anglePiToPi(self, angle):
+        return math.atan2(math.sin(angle), math.cos(angle))
 
 ##### test #####
 # ## depth image
@@ -38,8 +54,9 @@ class DataTransform():
 # print("depth_img_numpy = ", depth_img_numpy)
 # print("depth_img_numpy.shape = ", depth_img_numpy.shape)
 # ## label
-# acc_list = [0, 0, 1]
+# acc_list = [1, 0, 0]
 # acc_numpy = np.array(acc_list)
+# print("acc_numpy = ", acc_numpy)
 # ## transform
 # transform = DataTransform()
 # depth_img_trans, acc_trans = transform(depth_img_numpy, acc_numpy, phase="train")

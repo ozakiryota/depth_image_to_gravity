@@ -29,7 +29,7 @@ class Network(nn.Module):
         #     nn.MaxPool2d(kernel_size=(2, 4), stride=(2, 4)),
         #     nn.Conv2d(128, 256, kernel_size=(3, 5), stride=1, padding=(1, 2)),
         #     nn.ReLU(inplace=True),
-        #     nn.MaxPool2d(kernel_size=(2, 4), stride=(2, 4)),
+        #     nn.MaxPool2d(kernel_size=(2, 4), stride=(2, 4))
         # )
         self.fc = nn.Sequential(
             nn.Linear(231424, 100),

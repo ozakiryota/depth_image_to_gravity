@@ -110,7 +110,7 @@ class TrainModel:
         ## time
         start_clock = time.time()
         ## loss record
-        writer = SummaryWriter(logdir = "../logs/" + self.str_hyperparameter + datetime.datetime.now().strftime("-%Y%m%d-%H%M%S"))
+        writer = SummaryWriter(logdir = "../logs/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S-") + self.str_hyperparameter)
         record_loss_train = []
         record_loss_val = []
         ## loop
