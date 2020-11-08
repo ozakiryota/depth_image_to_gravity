@@ -11,12 +11,15 @@ class Network(nn.Module):
 
         self.cnn = nn.Sequential(
             nn.Conv2d(1, 64, kernel_size=3, stride=1, padding=1),
+            # nn.BatchNorm2d(64),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
             nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1),
+            # nn.BatchNorm2d(128),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2),
             nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1),
+            # nn.BatchNorm2d(256),
             nn.ReLU(inplace=True),
             nn.MaxPool2d(kernel_size=2, stride=2)
         )
@@ -101,3 +104,4 @@ class Network(nn.Module):
 # print("inputs.size() = ", inputs.size())
 # outputs = net(inputs)
 # print("outputs.size() = ", outputs.size())
+# print("outputs = ", outputs)
