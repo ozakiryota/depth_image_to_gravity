@@ -29,8 +29,8 @@ class OriginalDataset(data.Dataset):
 # import make_datalist_mod
 # import data_transform_mod
 # ## list
-# train_rootpath = "../../dataset_image_to_gravity/AirSim/lidar/train"
-# val_rootpath = "../../dataset_image_to_gravity/AirSim/lidar/val"
+# train_rootpath = "../../../dataset_image_to_gravity/AirSim/lidar/train"
+# val_rootpath = "../../../dataset_image_to_gravity/AirSim/lidar/val"
 # csv_name = "imu_lidar.csv"
 # train_list = make_datalist_mod.makeDataList(train_rootpath, csv_name)
 # val_list = make_datalist_mod.makeDataList(val_rootpath, csv_name)

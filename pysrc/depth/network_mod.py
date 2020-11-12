@@ -25,12 +25,15 @@ class Network(nn.Module):
         )
         # self.cnn = nn.Sequential(
         #     nn.Conv2d(1, 64, kernel_size=(3, 5), stride=1, padding=(1, 2)),
+        #     # nn.BatchNorm2d(64),
         #     nn.ReLU(inplace=True),
         #     nn.MaxPool2d(kernel_size=(2, 4), stride=(2, 4)),
         #     nn.Conv2d(64, 128, kernel_size=(3, 5), stride=1, padding=(1, 2)),
+        #     # nn.BatchNorm2d(128),
         #     nn.ReLU(inplace=True),
         #     nn.MaxPool2d(kernel_size=(2, 4), stride=(2, 4)),
         #     nn.Conv2d(128, 256, kernel_size=(3, 5), stride=1, padding=(1, 2)),
+        #     # nn.BatchNorm2d(256),
         #     nn.ReLU(inplace=True),
         #     nn.MaxPool2d(kernel_size=(2, 4), stride=(2, 4))
         # )
@@ -87,7 +90,7 @@ class Network(nn.Module):
 # # vgg = models.vgg16(pretrained=False)
 # # print(vgg)
 # ## depth image
-# depth_img_path = "../../dataset_image_to_gravity/AirSim/lidar/example.npy"
+# depth_img_path = "../../../dataset_image_to_gravity/AirSim/lidar/example.npy"
 # depth_img_numpy = np.load(depth_img_path)
 # ## label
 # acc_list = [0, 0, 1]

@@ -110,7 +110,7 @@ class TrainModel:
         ## time
         start_clock = time.time()
         ## loss record
-        writer = SummaryWriter(logdir = "../logs/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S-") + self.str_hyperparameter)
+        writer = SummaryWriter(logdir = "../../logs/" + datetime.datetime.now().strftime("%Y%m%d-%H%M%S-") + self.str_hyperparameter)
         record_loss_train = []
         record_loss_val = []
         ## loop
@@ -171,7 +171,7 @@ class TrainModel:
         return loss
 
     def saveParam(self):
-        save_path = "../weights/" + self.str_hyperparameter + ".pth"
+        save_path = "../../weights/" + self.str_hyperparameter + ".pth"
         torch.save(self.net.state_dict(), save_path)
         print("Saved: ", save_path)
 
@@ -183,14 +183,14 @@ class TrainModel:
         plt.xlabel("Epoch")
         plt.ylabel("Loss [m^2/s^4]")
         plt.title("loss: train=" + str(record_loss_train[-1]) + ", val=" + str(record_loss_val[-1]))
-        graph.savefig("../graph/" + self.str_hyperparameter + ".jpg")
+        graph.savefig("../../graph/" + self.str_hyperparameter + ".jpg")
         plt.show()
 
 def main():
     ## hyperparameters
     method_name = "regression"
-    train_rootpath = "../../dataset_image_to_gravity/AirSim/lidar/train"
-    val_rootpath = "../../dataset_image_to_gravity/AirSim/lidar/val"
+    train_rootpath = "../../../dataset_image_to_gravity/AirSim/lidar/train"
+    val_rootpath = "../../../dataset_image_to_gravity/AirSim/lidar/val"
     csv_name = "imu_lidar.csv"
     optimizer_name = "Adam"  #"SGD" or "Adam"
     lr_cnn = 1e-4

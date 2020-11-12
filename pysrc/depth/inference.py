@@ -199,10 +199,10 @@ class InferenceModel:
 
 def main():
     ## hyperparameters
-    rootpath = "../../dataset_image_to_gravity/AirSim/lidar/val"
+    rootpath = "../../../dataset_image_to_gravity/AirSim/lidar/val"
     csv_name = "imu_lidar.csv"
     batch_size = 10
-    weights_path = "../weights/regression.pth"
+    weights_path = "../../weights/regression.pth"
     ## infer
     inference_model = InferenceModel(
         rootpath, csv_name,

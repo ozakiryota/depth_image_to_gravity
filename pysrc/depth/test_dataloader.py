@@ -20,8 +20,8 @@ def show_inputs(inputs):
     plt.show()
 
 ## list
-train_rootpath = "../../dataset_image_to_gravity/AirSim/lidar/train"
-val_rootpath = "../../dataset_image_to_gravity/AirSim/lidar/val"
+train_rootpath = "../../../dataset_image_to_gravity/AirSim/lidar/train"
+val_rootpath = "../../../dataset_image_to_gravity/AirSim/lidar/val"
 csv_name = "imu_lidar.csv"
 train_list = make_datalist_mod.makeDataList(train_rootpath, csv_name)
 val_list = make_datalist_mod.makeDataList(val_rootpath, csv_name)
@@ -50,6 +50,7 @@ batch_iterator = iter(dataloaders_dict["train"])
 # batch_iterator = iter(dataloaders_dict["val"])
 inputs, labels = next(batch_iterator)
 
+# print("inputs = ", inputs)
 print("inputs.size() = ", inputs.size())
 print("labels = ", labels)
 print("labels[0] = ", labels[0])

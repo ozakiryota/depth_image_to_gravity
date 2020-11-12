@@ -18,13 +18,25 @@ class DataTransform():
             acc_numpy = self.rotateVector(acc_numpy, angle)
         ## img: numpy -> tensor
         depth_img_numpy = depth_img_numpy.astype(np.float32)
+        depth_img_numpy = self.addFlatnessCh(depth_img_numpy)
+        # depth_img_numpy = np.where(depth_img_numpy > 0.0, 1.0/depth_img_numpy, depth_img_numpy)
         depth_img_tensor = torch.from_numpy(depth_img_numpy)
-        depth_img_tensor = depth_img_tensor.unsqueeze_(0)
         ## acc: numpy -> tensor
         acc_numpy = acc_numpy.astype(np.float32)
         acc_numpy = acc_numpy / np.linalg.norm(acc_numpy)
         acc_tensor = torch.from_numpy(acc_numpy)
         return depth_img_tensor, acc_tensor
+
+    def addFlatnessCh(self, depth_img_numpy):
+        flatness_img_numpy = np.zeros_like(depth_img_numpy)
+        for row in range(len(depth_img_numpy)):
+            for col in range(len(depth_img_numpy[row])):
+                if (depth_img_numpy[row, col - 1] < 0) or (depth_img_numpy[row, col] < 0) or (depth_img_numpy[row, col - len(depth_img_numpy[row]) + 1]):
+                    flatness_img_numpy[row, col] = -1
+                else:
+                    flatness_img_numpy[row, col] = abs(2 * depth_img_numpy[row, col] - depth_img_numpy[row, col - 1] - depth_img_numpy[row, col - len(depth_img_numpy[row]) + 1])
+        depth_img_numpy = np.stack([depth_img_numpy, flatness_img_numpy], 0)
+        return depth_img_numpy
 
     def randomlySlidePixels(self, depth_img_numpy):
         ## slide: right -> left (rotate: CCW along Z-axis)
@@ -49,7 +61,7 @@ class DataTransform():
 
 ##### test #####
 # ## depth image
-# depth_img_path = "../../dataset_image_to_gravity/AirSim/lidar/example.npy"
+# depth_img_path = "../../../dataset_image_to_gravity/AirSim/lidar/example.npy"
 # depth_img_numpy = np.load(depth_img_path)
 # print("depth_img_numpy = ", depth_img_numpy)
 # print("depth_img_numpy.shape = ", depth_img_numpy.shape)
@@ -65,15 +77,16 @@ class DataTransform():
 # depth_img_trans_numpy = depth_img_trans.numpy().transpose((1, 2, 0))  #(ch, h, w) -> (h, w, ch)
 # print("depth_img_trans_numpy.shape = ", depth_img_trans_numpy.shape)
 # ## save
-# depth_img_trans_numpy = depth_img_trans_numpy.squeeze(2)
-# img_pil = Image.fromarray(np.uint8(255*depth_img_trans_numpy/np.max(depth_img_trans_numpy)))
-# save_path = "../save/transform.jpg"
+# img_pil = Image.fromarray(np.uint8(255*depth_img_trans_numpy[:,:,0]/np.max(depth_img_trans_numpy[:,:,0])))
+# save_path = "../../save/transform.jpg"
 # img_pil.save(save_path)
 # print("saved: ", save_path)
 # ## imshow
 # plt.figure()
-# plt.subplot(2, 1, 1)
+# plt.subplot(3, 1, 1)
 # plt.imshow(depth_img_numpy)
-# plt.subplot(2, 1, 2)
-# plt.imshow(depth_img_trans_numpy)
+# plt.subplot(3, 1, 2)
+# plt.imshow(depth_img_trans_numpy[:,:,0])
+# plt.subplot(3, 1, 3)
+# plt.imshow(depth_img_trans_numpy[:,:,1])
 # plt.show()
