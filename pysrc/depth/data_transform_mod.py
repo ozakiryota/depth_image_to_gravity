@@ -50,32 +50,32 @@ class DataTransform():
         return math.atan2(math.sin(angle), math.cos(angle))
 
 ##### test #####
-## depth image
-depth_img_path = "../../../dataset_image_to_gravity/AirSim/lidar/example.npy"
-depth_img_numpy = np.load(depth_img_path)
-print("depth_img_numpy = ", depth_img_numpy)
-print("depth_img_numpy.shape = ", depth_img_numpy.shape)
-## label
-acc_list = [1, 0, 0]
-acc_numpy = np.array(acc_list)
-print("acc_numpy = ", acc_numpy)
-## transform
-transform = DataTransform()
-depth_img_trans, acc_trans = transform(depth_img_numpy, acc_numpy, phase="train")
-print("acc_trans = ", acc_trans)
-## tensor -> numpy
-depth_img_trans_numpy = depth_img_trans.numpy().transpose((1, 2, 0))  #(ch, h, w) -> (h, w, ch)
-print("depth_img_trans_numpy.shape = ", depth_img_trans_numpy.shape)
-## save
-depth_img_trans_numpy = depth_img_trans_numpy.squeeze(2)
-img_pil = Image.fromarray(np.uint8(255*depth_img_trans_numpy/np.max(depth_img_trans_numpy)))
-save_path = "../../save/transform.jpg"
-img_pil.save(save_path)
-print("saved: ", save_path)
-## imshow
-plt.figure()
-plt.subplot(2, 1, 1)
-plt.imshow(depth_img_numpy)
-plt.subplot(2, 1, 2)
-plt.imshow(depth_img_trans_numpy)
-plt.show()
+# ## depth image
+# depth_img_path = "../../../dataset_image_to_gravity/AirSim/lidar/example.npy"
+# depth_img_numpy = np.load(depth_img_path)
+# print("depth_img_numpy = ", depth_img_numpy)
+# print("depth_img_numpy.shape = ", depth_img_numpy.shape)
+# ## label
+# acc_list = [1, 0, 0]
+# acc_numpy = np.array(acc_list)
+# print("acc_numpy = ", acc_numpy)
+# ## transform
+# transform = DataTransform()
+# depth_img_trans, acc_trans = transform(depth_img_numpy, acc_numpy, phase="train")
+# print("acc_trans = ", acc_trans)
+# ## tensor -> numpy
+# depth_img_trans_numpy = depth_img_trans.numpy().transpose((1, 2, 0))  #(ch, h, w) -> (h, w, ch)
+# print("depth_img_trans_numpy.shape = ", depth_img_trans_numpy.shape)
+# ## save
+# depth_img_trans_numpy = depth_img_trans_numpy.squeeze(2)
+# img_pil = Image.fromarray(np.uint8(255*depth_img_trans_numpy/np.max(depth_img_trans_numpy)))
+# save_path = "../../save/transform.jpg"
+# img_pil.save(save_path)
+# print("saved: ", save_path)
+# ## imshow
+# plt.figure()
+# plt.subplot(2, 1, 1)
+# plt.imshow(depth_img_numpy)
+# plt.subplot(2, 1, 2)
+# plt.imshow(depth_img_trans_numpy)
+# plt.show()

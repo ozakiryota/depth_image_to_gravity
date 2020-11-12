@@ -85,26 +85,26 @@ class Network(nn.Module):
         return x
 
 ##### test #####
-import data_transform_mod
-## ref
-# vgg = models.vgg16(pretrained=False)
-# print(vgg)
-## depth image
-depth_img_path = "../../../dataset_image_to_gravity/AirSim/lidar/example.npy"
-depth_img_numpy = np.load(depth_img_path)
-## label
-acc_list = [0, 0, 1]
-acc_numpy = np.array(acc_list)
-## transform
-transform = data_transform_mod.DataTransform()
-depth_img_trans, _ = transform(depth_img_numpy, acc_numpy)
-## network
-net = Network()
-print(net)
-list_cnn_param_value, list_fc_param_value = net.getParamValueList()
-## prediction
-inputs = depth_img_trans.unsqueeze_(0)
-print("inputs.size() = ", inputs.size())
-outputs = net(inputs)
-print("outputs.size() = ", outputs.size())
-print("outputs = ", outputs)
+# import data_transform_mod
+# ## ref
+# # vgg = models.vgg16(pretrained=False)
+# # print(vgg)
+# ## depth image
+# depth_img_path = "../../../dataset_image_to_gravity/AirSim/lidar/example.npy"
+# depth_img_numpy = np.load(depth_img_path)
+# ## label
+# acc_list = [0, 0, 1]
+# acc_numpy = np.array(acc_list)
+# ## transform
+# transform = data_transform_mod.DataTransform()
+# depth_img_trans, _ = transform(depth_img_numpy, acc_numpy)
+# ## network
+# net = Network()
+# print(net)
+# list_cnn_param_value, list_fc_param_value = net.getParamValueList()
+# ## prediction
+# inputs = depth_img_trans.unsqueeze_(0)
+# print("inputs.size() = ", inputs.size())
+# outputs = net(inputs)
+# print("outputs.size() = ", outputs.size())
+# print("outputs = ", outputs)

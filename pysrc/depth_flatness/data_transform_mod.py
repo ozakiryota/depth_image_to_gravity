@@ -19,7 +19,7 @@ class DataTransform():
         ## img: numpy -> tensor
         depth_img_numpy = depth_img_numpy.astype(np.float32)
         depth_img_numpy = self.addFlatnessCh(depth_img_numpy)
-        # depth_img_numpy = np.where(depth_img_numpy > 0, 1.0/depth_img_numpy, depth_img_numpy)
+        depth_img_numpy[0] = np.where(depth_img_numpy[0] > 0, 1.0/depth_img_numpy[0], depth_img_numpy[0])
         depth_img_tensor = torch.from_numpy(depth_img_numpy)
         ## acc: numpy -> tensor
         acc_numpy = acc_numpy.astype(np.float32)
@@ -29,9 +29,9 @@ class DataTransform():
 
     def addFlatnessCh(self, depth_img_numpy):
         roll_plus = np.roll(depth_img_numpy, 1, axis=1)
-        roll_plus = np.where(roll_plus < 0, 0.0, roll_plus)
+        roll_plus = np.where(roll_plus < 0, 0, roll_plus)
         roll_minus = np.roll(depth_img_numpy, -1, axis=1)
-        roll_minus = np.where(roll_minus < 0, 0.0, roll_minus)
+        roll_minus = np.where(roll_minus < 0, 0, roll_minus)
         flatness_img_numpy = np.where(depth_img_numpy > 0.0, np.abs(2 * depth_img_numpy - roll_plus - roll_minus), depth_img_numpy)
         depth_img_numpy = np.stack([depth_img_numpy, flatness_img_numpy], 0)
         return depth_img_numpy
@@ -70,6 +70,9 @@ class DataTransform():
 # ## transform
 # transform = DataTransform()
 # depth_img_trans, acc_trans = transform(depth_img_numpy, acc_numpy, phase="train")
+# print("depth_img_trans[0] = ", depth_img_trans[0])
+# print("depth_img_trans[1] = ", depth_img_trans[1])
+# print("depth_img_trans.size() = ", depth_img_trans.size())
 # print("acc_trans = ", acc_trans)
 # ## tensor -> numpy
 # depth_img_trans_numpy = depth_img_trans.numpy().transpose((1, 2, 0))  #(ch, h, w) -> (h, w, ch)
