@@ -198,7 +198,7 @@ class TrainModel:
 
 def main():
     ## hyperparameters
-    method_name = "regression"
+    method_name = "RegressionColorDepth"
     train_rootpath = "../../../dataset_image_to_gravity/AirSim/lidar1cam/train"
     val_rootpath = "../../../dataset_image_to_gravity/AirSim/lidar1cam/val"
     csv_name = "imu_lidar_camera.csv"
