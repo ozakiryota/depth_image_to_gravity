@@ -6,46 +6,46 @@ from torchvision import models
 import torch.nn as nn
 
 class Network(nn.Module):
-    def __init__(self):
+    def __init__(self, dim_fc_out=3):
         super(Network, self).__init__()
 
-        self.cnn = nn.Sequential(
-            nn.Conv2d(1, 64, kernel_size=3, stride=1, padding=1),
-            # nn.BatchNorm2d(64),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),
-            nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1),
-            # nn.BatchNorm2d(128),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2),
-            nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1),
-            # nn.BatchNorm2d(256),
-            nn.ReLU(inplace=True),
-            nn.MaxPool2d(kernel_size=2, stride=2)
-        )
         # self.cnn = nn.Sequential(
-        #     nn.Conv2d(1, 64, kernel_size=(3, 5), stride=1, padding=(1, 2)),
+        #     nn.Conv2d(1, 64, kernel_size=3, stride=1, padding=1),
         #     # nn.BatchNorm2d(64),
         #     nn.ReLU(inplace=True),
-        #     nn.MaxPool2d(kernel_size=(2, 4), stride=(2, 4)),
-        #     nn.Conv2d(64, 128, kernel_size=(3, 5), stride=1, padding=(1, 2)),
+        #     nn.MaxPool2d(kernel_size=2, stride=2),
+        #     nn.Conv2d(64, 128, kernel_size=3, stride=1, padding=1),
         #     # nn.BatchNorm2d(128),
         #     nn.ReLU(inplace=True),
-        #     nn.MaxPool2d(kernel_size=(2, 4), stride=(2, 4)),
-        #     nn.Conv2d(128, 256, kernel_size=(3, 5), stride=1, padding=(1, 2)),
+        #     nn.MaxPool2d(kernel_size=2, stride=2),
+        #     nn.Conv2d(128, 256, kernel_size=3, stride=1, padding=1),
         #     # nn.BatchNorm2d(256),
         #     nn.ReLU(inplace=True),
-        #     nn.MaxPool2d(kernel_size=(2, 4), stride=(2, 4))
+        #     nn.MaxPool2d(kernel_size=2, stride=2)
         # )
+        self.cnn = nn.Sequential(
+            nn.Conv2d(1, 64, kernel_size=(3, 5), stride=1, padding=(1, 2)),
+            # nn.BatchNorm2d(64),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=(2, 4), stride=(2, 4)),
+            nn.Conv2d(64, 128, kernel_size=(3, 5), stride=1, padding=(1, 2)),
+            # nn.BatchNorm2d(128),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=(2, 4), stride=(2, 4)),
+            nn.Conv2d(128, 256, kernel_size=(3, 5), stride=1, padding=(1, 2)),
+            # nn.BatchNorm2d(256),
+            nn.ReLU(inplace=True),
+            nn.MaxPool2d(kernel_size=(2, 4), stride=(2, 4))
+        )
         self.fc = nn.Sequential(
-            nn.Linear(231424, 100),
-            # nn.Linear(28672, 100),
+            # nn.Linear(231424, 100),
+            nn.Linear(28672, 100),
             nn.ReLU(inplace=True),
             nn.Dropout(p=0.1),
             nn.Linear(100, 18),
             nn.ReLU(inplace=True),
             nn.Dropout(p=0.1),
-            nn.Linear(18, 3)
+            nn.Linear(18, dim_fc_out)
         )
         self.initializeWeights()
 

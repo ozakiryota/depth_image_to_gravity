@@ -9,23 +9,19 @@ import torch.nn as nn
 import torch.optim as optim
 from tensorboardX import SummaryWriter
 
-import make_datalist_mod
-import data_transform_mod
-import dataset_mod
-import network_mod
-
-class TrainModel:
+class Trainer:
     def __init__(self,
             method_name,
-            train_rootpath, val_rootpath, csv_name,
+            train_dataset, val_dataset,
+            net, criterion,
             optimizer_name, lr_cnn, lr_fc,
             batch_size, num_epochs):
         self.setRandomCondition()
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         print("self.device = ", self.device)
-        self.data_transform = self.getDataTransform()
-        self.dataloaders_dict = self.getDataloader(train_rootpath, val_rootpath, csv_name, batch_size)
-        self.net = self.getNetwork()
+        self.dataloaders_dict = self.getDataloader(train_dataset, val_dataset, batch_size)
+        self.net = self.getSetNetwork(net)
+        self.criterion = criterion
         self.optimizer = self.getOptimizer(optimizer_name, lr_cnn, lr_fc)
         self.num_epochs = num_epochs
         self.str_hyperparameter  = self.getStrHyperparameter(method_name, optimizer_name, lr_cnn, lr_fc, batch_size)
@@ -38,26 +34,7 @@ class TrainModel:
             torch.backends.cudnn.deterministic = True
             torch.backends.cudnn.benchmark = False
 
-    def getDataTransform(self):
-        data_transform = data_transform_mod.DataTransform()
-        return data_transform
-
-    def getDataloader(self, train_rootpath, val_rootpath, csv_name, batch_size):
-        ## list
-        train_list = make_datalist_mod.makeDataList(train_rootpath, csv_name)
-        val_list = make_datalist_mod.makeDataList(val_rootpath, csv_name)
-        ## dataset
-        train_dataset = dataset_mod.OriginalDataset(
-            data_list=train_list,
-            transform=self.data_transform,
-            phase="train"
-        )
-        val_dataset = dataset_mod.OriginalDataset(
-            data_list=val_list,
-            transform=self.data_transform,
-            phase="val"
-        )
-        ## dataloader
+    def getDataloader(self, train_dataset, val_dataset, batch_size):
         train_dataloader = torch.utils.data.DataLoader(
             train_dataset,
             batch_size=batch_size,
@@ -71,8 +48,7 @@ class TrainModel:
         dataloaders_dict = {"train": train_dataloader, "val": val_dataloader}
         return dataloaders_dict
 
-    def getNetwork(self):
-        net = network_mod.Network()
+    def getSetNetwork(self, net):
         print(net)
         net.to(self.device)
         return net
@@ -166,8 +142,7 @@ class TrainModel:
         print ("training_time: ", mins, " [min] ", secs, " [sec]")
 
     def computeLoss(self, outputs, labels):
-        criterion = nn.MSELoss()
-        loss = criterion(outputs, labels)
+        loss = self.criterion(outputs, labels)
         return loss
 
     def saveParam(self):
@@ -185,26 +160,3 @@ class TrainModel:
         plt.title("loss: train=" + str(record_loss_train[-1]) + ", val=" + str(record_loss_val[-1]))
         graph.savefig("../../graph/" + self.str_hyperparameter + ".jpg")
         plt.show()
-
-def main():
-    ## hyperparameters
-    method_name = "regression"
-    train_rootpath = "../../../dataset_image_to_gravity/AirSim/lidar/train"
-    val_rootpath = "../../../dataset_image_to_gravity/AirSim/lidar/val"
-    csv_name = "imu_lidar.csv"
-    optimizer_name = "Adam"  #"SGD" or "Adam"
-    lr_cnn = 1e-4
-    lr_fc = 1e-4
-    batch_size = 10
-    num_epochs = 50
-    ## train
-    train_model = TrainModel(
-        method_name,
-        train_rootpath, val_rootpath, csv_name,
-        optimizer_name, lr_cnn, lr_fc,
-        batch_size, num_epochs
-    )
-    train_model.train()
-
-if __name__ == '__main__':
-    main()

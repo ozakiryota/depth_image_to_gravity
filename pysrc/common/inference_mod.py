@@ -8,11 +8,6 @@ import torch
 from torchvision import models
 import torch.nn as nn
 
-import make_datalist_mod
-import data_transform_mod
-import dataset_mod
-import network_mod
-
 class Sample:
     def __init__(self,
             index,
@@ -41,37 +36,23 @@ class Sample:
         print("o_r[deg]: ", self.output_r/math.pi*180.0, ", o_p[deg]: ", self.output_p/math.pi*180.0)
         print("e_r[deg]: ", self.error_r/math.pi*180.0, ", e_p[deg]: ", self.error_p/math.pi*180.0)
 
-class InferenceModel:
+class Inference:
     def __init__(self,
-            rootpath, csv_name,
-            batch_size,
-            weights_path):
+            dataset,
+            net, weights_path, criterion,
+            batch_size):
         self.device = torch.device("cuda:0" if torch.cuda.is_available() else "cpu")
         print("self.device = ", self.device)
-        self.data_transform = self.getDataTransform()
-        self.data_list = []
-        self.dataloader = self.getDataloader(rootpath, csv_name, batch_size)
-        self.net = self.getNetwork(weights_path)
+        self.dataloader = self.getDataloader(dataset, batch_size)
+        self.net = self.getSetNetwork(net, weights_path)
+        self.criterion = criterion
         ## list
         self.list_samples = []
         self.list_inputs = []
         self.list_labels = []
         self.list_outputs = []
 
-    def getDataTransform(self):
-        data_transform = data_transform_mod.DataTransform()
-        return data_transform
-
-    def getDataloader(self, rootpath, csv_name, batch_size):
-        ## list
-        self.data_list = make_datalist_mod.makeDataList(rootpath, csv_name)
-        ## dataset
-        dataset = dataset_mod.OriginalDataset(
-            data_list=self.data_list,
-            transform=self.data_transform,
-            phase="val"
-        )
-        ## dataloader
+    def getDataloader(self, dataset, batch_size):
         dataloader = torch.utils.data.DataLoader(
             dataset,
             batch_size=batch_size,
@@ -79,8 +60,7 @@ class InferenceModel:
         )
         return dataloader
 
-    def getNetwork(self, weights_path):
-        net = network_mod.Network()
+    def getSetNetwork(self, net, weights_path):
         print(net)
         net.to(self.device)
         net.eval()
@@ -136,8 +116,7 @@ class InferenceModel:
         plt.show()
 
     def computeLoss(self, outputs, labels):
-        criterion = nn.MSELoss()
-        loss = criterion(outputs, labels)
+        loss = self.criterion(outputs, labels)
         return loss
 
     def computeAttitudeError(self):
@@ -152,7 +131,7 @@ class InferenceModel:
             ## register
             sample = Sample(
                 i,
-                self.data_list[i][3:], self.list_inputs[i], self.list_labels[i], self.list_outputs[i],
+                self.dataloader.dataset.data_list[i][3:], self.list_inputs[i], self.list_labels[i], self.list_outputs[i],
                 label_r, label_p, output_r, output_p, error_r, error_p
             )
             self.list_samples.append(sample)
@@ -196,20 +175,3 @@ class InferenceModel:
                 plt.tick_params(labelbottom=False, labelleft=False, bottom=False, left=False)
                 plt.imshow(self.list_samples[i].inputs.transpose((1, 2, 0)).squeeze(2))
                 plt.title(str(self.list_samples[i].index))
-
-def main():
-    ## hyperparameters
-    rootpath = "../../../dataset_image_to_gravity/AirSim/lidar/val"
-    csv_name = "imu_lidar.csv"
-    batch_size = 10
-    weights_path = "../../weights/regression.pth"
-    ## infer
-    inference_model = InferenceModel(
-        rootpath, csv_name,
-        batch_size,
-        weights_path
-    )
-    inference_model.infer()
-
-if __name__ == '__main__':
-    main()
