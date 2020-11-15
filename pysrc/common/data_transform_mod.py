@@ -34,8 +34,8 @@ class DataTransform():
         slide_pixel = random.randint(0, depth_img_numpy.shape[1] - 1)
         heading_rad = self.anglePiToPi(2 * math.pi / depth_img_numpy.shape[1] * slide_pixel)
         slid_depth_img_numpy = np.roll(depth_img_numpy, slide_pixel, axis=1)
-        print("slide_pixel = ", slide_pixel)
-        print("heading_rad/math.pi*180.0 = ", heading_rad/math.pi*180.0)
+        # print("slide_pixel = ", slide_pixel)
+        # print("heading_rad/math.pi*180.0 = ", heading_rad/math.pi*180.0)
         return slid_depth_img_numpy, heading_rad
 
     def rotateVector(self, acc_numpy, angle):
