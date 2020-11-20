@@ -14,6 +14,14 @@ class DataTransform():
     def __call__(self, depth_img_numpy, acc_numpy, phase="train"):
         ## augemntation
         if phase == "train":
+            ## mirror
+            is_mirror = bool(random.getrandbits(1))
+            if is_mirror:
+                ## depth
+                depth_img_numpy = np.fliplr(depth_img_numpy)
+                ## acc
+                acc_numpy[1] = -acc_numpy[1]
+            ## rotate
             depth_img_numpy, heading_rad = self.randomlySlidePixels(depth_img_numpy)
             acc_numpy = self.rotateVector(acc_numpy, -heading_rad)
         ## img: numpy -> tensor
