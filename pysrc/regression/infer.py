@@ -18,13 +18,13 @@ from common import network_mod
 
 def main():
     ## hyperparameters
-    rootpath = "../../../dataset_image_to_gravity/AirSim/lidar/val"
+    list_rootpath = ["../../../dataset_image_to_gravity/AirSim/lidar/val"]
     csv_name = "imu_lidar.csv"
     batch_size = 10
     weights_path = "../../weights/regression.pth"
     ## dataset
     dataset = dataset_mod.OriginalDataset(
-        data_list=make_datalist_mod.makeDataList(rootpath, csv_name),
+        data_list=make_datalist_mod.makeDataList(list_rootpath, csv_name),
         transform=data_transform_mod.DataTransform(),
         phase="val"
     )

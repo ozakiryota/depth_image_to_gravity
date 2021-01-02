@@ -20,11 +20,11 @@ def show_inputs(inputs):
     plt.show()
 
 ## list
-train_rootpath = "../../../dataset_image_to_gravity/AirSim/lidar/train"
-val_rootpath = "../../../dataset_image_to_gravity/AirSim/lidar/val"
+list_train_rootpath = ["../../../dataset_image_to_gravity/AirSim/lidar/train"]
+list_val_rootpath = ["../../../dataset_image_to_gravity/AirSim/lidar/val"]
 csv_name = "imu_lidar.csv"
-train_list = make_datalist_mod.makeDataList(train_rootpath, csv_name)
-val_list = make_datalist_mod.makeDataList(val_rootpath, csv_name)
+train_list = make_datalist_mod.makeDataList(list_train_rootpath, csv_name)
+val_list = make_datalist_mod.makeDataList(list_val_rootpath, csv_name)
 
 ## dataset
 train_dataset = dataset_mod.OriginalDataset(
