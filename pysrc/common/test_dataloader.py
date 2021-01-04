@@ -1,5 +1,6 @@
 import numpy as np
 import matplotlib.pyplot as plt
+from PIL import Image
 
 import torch
 
@@ -7,16 +8,46 @@ import make_datalist_mod
 import data_transform_mod
 import dataset_mod
 
-def show_inputs(inputs):
+def save_examples(inputs, labels):
+    num = 10
+    fig, ax = plt.subplots()
+    y_axis = ax.quiver(-0.5, 0, color='green', angles='xy', scale_units='xy', scale=1)
+    z_axis =  ax.quiver(0, 0.5, color='blue', angles='xy', scale_units='xy', scale=1)
+    for i, tensor in enumerate(inputs):
+        if i < num:
+            ## input
+            img = tensor.numpy().transpose((1, 2, 0))
+            img = img.squeeze(2)
+            img_pil = Image.fromarray(np.uint8(255*img/np.max(img)))
+            img_pil.save("../../save/example" + str(i) + "_input.jpg")
+            ## label
+            q = ax.quiver(labels[i][1], -labels[i][2], color='deepskyblue', angles='xy', scale_units='xy', scale=1)
+            ax.tick_params(labelbottom=False, labelleft=False, bottom=False, left=False)
+            ax.set_xlim([-1, 1])
+            ax.set_ylim([-1, 1])
+            plt.savefig("../../save/example" + str(i) + "_label.jpg")
+            q.remove()
+    y_axis.remove()
+    z_axis.remove()
+
+def show_examples(inputs, labels):
     h = 10
     w = 1
-    plt.figure()
+    # plt.figure()
     for i, tensor in enumerate(inputs):
         if i < h*w:
             img = tensor.numpy().transpose((1, 2, 0))
             img = img.squeeze(2)
-            plt.subplot(h, w, i+1)
-            plt.imshow(img)
+            ## input
+            ax_input = plt.subplot(h, 2*w, 2*i+1)
+            # ax_input.tick_params(labelbottom=False, labelleft=False, bottom=False, left=False)
+            ax_input.imshow(img)
+            ## label
+            ax_label = plt.subplot(h, 2*w, 2*i+2)
+            ax_label.tick_params(labelbottom=False, labelleft=False, bottom=False, left=False)
+            ax_label.set_xlim([-1, 1])
+            ax_label.set_ylim([-1, 1])
+            ax_label.quiver(labels[i][1], -labels[i][2], color='red', angles='xy', scale_units='xy', scale=1)
     plt.show()
 
 ## list
@@ -55,4 +86,5 @@ print("inputs.size() = ", inputs.size())
 print("labels = ", labels)
 print("labels[0] = ", labels[0])
 print("labels.size() = ", labels.size())
-show_inputs(inputs)
+save_examples(inputs, labels)
+show_examples(inputs, labels)
