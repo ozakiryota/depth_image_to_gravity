@@ -60,9 +60,9 @@ class DataTransform():
 
 ##### test #####
 # ## depth image
-# depth_img_path = "../../../dataset_image_to_gravity/AirSim/lidar/example.npy"
+# depth_img_path = "../../../dataset_image_to_gravity/AirSim/example/lidar.npy"
 # depth_img_numpy = np.load(depth_img_path)
-# print("depth_img_numpy = ", depth_img_numpy)
+# # print("depth_img_numpy = ", depth_img_numpy)
 # print("depth_img_numpy.shape = ", depth_img_numpy.shape)
 # ## label
 # acc_list = [1, 0, 0]
@@ -71,7 +71,7 @@ class DataTransform():
 # ## transform
 # transform = DataTransform()
 # depth_img_trans, acc_trans = transform(depth_img_numpy, acc_numpy, phase="train")
-# print("depth_img_trans = ", depth_img_trans)
+# # print("depth_img_trans = ", depth_img_trans)
 # print("depth_img_trans.size() = ", depth_img_trans.size())
 # print("acc_trans = ", acc_trans)
 # ## tensor -> numpy
