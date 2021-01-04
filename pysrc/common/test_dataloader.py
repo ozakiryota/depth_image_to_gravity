@@ -22,6 +22,11 @@ def save_examples(inputs, labels):
             img_pil.save("../../save/example" + str(i) + "_input.jpg")
             ## label
             q = ax.quiver(labels[i][1], -labels[i][2], color='deepskyblue', angles='xy', scale_units='xy', scale=1)
+            title = plt.title(
+                "gx = " + "{:.1f}".format(-9.81 * labels[i][0])
+                + " gy = " + "{:.1f}".format(-9.81 * labels[i][1])
+                + " gy = " + "{:.1f}".format(-9.81 * labels[i][2])
+            )
             ax.tick_params(labelbottom=False, labelleft=False, bottom=False, left=False)
             ax.set_xlim([-1, 1])
             ax.set_ylim([-1, 1])
