@@ -5,7 +5,7 @@ This repository presents a deep neural network which estimates a gravity directi
 Some datasets are available at [ozakiryota/dataset_image_to_gravity](https://github.com/ozakiryota/dataset_image_to_gravity).
 ## Usage
 The following commands are just an example.  
-Some trained models are available in image_to_gravity/keep.
+Some trained models are available in depth_image_to_gravity/keep.
 ### Regression
 #### Training
 ```bash
