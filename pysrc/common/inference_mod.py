@@ -10,9 +10,9 @@ import torch.nn as nn
 
 class Sample:
     def __init__(self,
-            index,
-            inputs_path, inputs, label, mu,
-            label_r, label_p, output_r, output_p, error_r, error_p):
+        index,
+        inputs_path, inputs, label, mu,
+        label_r, label_p, output_r, output_p, error_r, error_p):
         self.index = index              #int
         self.inputs_path = inputs_path  #list
         self.inputs = inputs            #ndarray
@@ -132,7 +132,7 @@ class Inference:
             error_p = self.computeAngleDiff(output_p, label_p)
             list_errors_rp.append([error_r, error_p])
             ## error in angle of g
-            error_g_angle = self.getAngleBetweenVectors(self.list_labels[i], self.list_est[i])
+            error_g_angle = self.getAngleBetweenVectors(self.list_labels[i], self.list_outputs[i])
             list_errors_g_angle.append(error_g_angle)
             ## register
             sample = Sample(
@@ -156,7 +156,7 @@ class Inference:
         diff = math.atan2(math.sin(angle1 - angle2), math.cos(angle1 - angle2))
         return diff
 
-    def getAngleBetweenVectors(v1, v2):
+    def getAngleBetweenVectors(self, v1, v2):
         return math.acos(np.dot(v1, v2)/np.linalg.norm(v1, ord=2)/np.linalg.norm(v2, ord=2))
 
     def computeMAE(self, x):
