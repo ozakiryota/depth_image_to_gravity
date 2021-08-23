@@ -10,9 +10,9 @@ import torch.nn as nn
 
 class Sample:
     def __init__(self,
-        index,
-        inputs_path, inputs, label, mu,
-        label_r, label_p, output_r, output_p, error_r, error_p):
+            index,
+            inputs_path, inputs, label, mu,
+            label_r, label_p, output_r, output_p, error_r, error_p):
         self.index = index              #int
         self.inputs_path = inputs_path  #list
         self.inputs = inputs            #ndarray
