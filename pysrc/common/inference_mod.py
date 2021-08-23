@@ -56,7 +56,7 @@ class Inference:
         dataloader = torch.utils.data.DataLoader(
             dataset,
             batch_size=batch_size,
-            shuffle=True
+            shuffle=False
         )
         return dataloader
 
