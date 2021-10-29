@@ -8,9 +8,6 @@ import torch
 from torchvision import transforms
 
 class DataTransform():
-    def __init__(self):
-        print("DataTransform.__init__")
-
     def __call__(self, depth_img_numpy, acc_numpy, phase="train"):
         ## augemntation
         if phase == "train":
