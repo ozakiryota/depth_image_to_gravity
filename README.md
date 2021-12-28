@@ -23,8 +23,16 @@ $ python3 infer.py
 ```
 ## Citation
 If this repository helps your research, please cite the paper below.  
-```
-Preparing...
+```TeX
+@ARTICLE{ozaki2021,
+	author = {Ryota Ozaki and Naoya Sugiura and Yoji Kuroda},
+	title = {LiDAR DNN based self-attitude estimation with learning landscape regularities},
+	journal = {ROBOMECH Journal},
+	volume = {8},
+	number = {26},
+	pages = {10.1186/s40648-021-00213-5},
+	year = {2021}
+}
 ```
 ## Related repositories
 - [ozakiryota/dataset_image_to_gravity](https://github.com/ozakiryota/dataset_image_to_gravity)
